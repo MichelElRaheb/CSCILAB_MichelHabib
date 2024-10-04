@@ -1,0 +1,76 @@
+#include <stdio.h>
+
+//ingredient definition
+# define coffee_beans 8
+# define water 30
+# define waterM 39
+# define milkC 70
+# define milkM 160
+# define CS 30
+# define ADpass 1235
+
+//Minimum ingrdients before alerted 
+# define CBmin 10
+# define watermin 50
+# define milkmin 200
+# define CSmin 40
+
+//firt menu varibles
+#define customer 1
+#define admin 2 
+#define exit 3
+
+
+int refill(int a);
+int refillW(int );
+int refillm(int );
+
+int main()
+{ 
+    {
+        puts("welcome to coffee");
+        printf("1.customer\n 2.admin\n");
+
+
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 'A':
+        puts("coffee 1 :     5.5");
+        puts("coffee 2 :     4.5");
+        puts("coffee 3 :     3.5");
+        break;
+            case 'B' :
+        puts("admin page");
+        break;
+        default 'C':
+        break;
+        }
+
+
+    }
+    
+
+
+}
+int refill(int a)
+{
+    if (coffee_beans <= CBmin);
+    printf("Refill coffee beans.");
+    else;
+    return 0;
+}
+int refillW(int )
+{ 
+    if (waterM <= watermin);
+    printf("Refill water.");
+    else;
+    return 0;
+}
+int refillm(int )
+{
+    if (milkM <= milkmin);
+    printf("Refill milk.");
+    else;
+    return 0;
+}
