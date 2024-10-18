@@ -1,0 +1,163 @@
+#include <stdio.h>
+#include <math.h>
+# define coffee_beans 8
+# define water 30
+# define waterM 39
+# define milkC 70
+# define milkM 160
+# define CS 30
+# define ADpass 1235
+
+//option prices
+#define mocha 5.5
+#define cuppacino 4.5
+#define espresso 3.5
+
+//Minimum ingrdients before alerted 
+# define CBmin 10
+# define watermin 50
+# define milkmin 200
+# define CSmin 40
+
+//firt menu varibles
+#define customer 1
+#define admin 2 
+#define exit 3
+
+float summoney(float , float , float , float , float ,float ,float , float, float ,float , float );
+float checkmoney(float money);
+int refill(int a);
+int refillW(int );
+int refillm(int );
+#define a 1 
+#define b 2 
+#define c 3
+
+int main()
+
+{ 
+    float requiredmoney = 0.0; // Declare and initialize requiredmoney
+    float sum = 0.0; // Declare and initialize sum
+    float counter = 0.0;
+    int choice;
+    int coffeechoice; 
+    
+    {
+        puts("welcome to coffee");
+        printf("1.customer\n 2.admin\n");
+
+
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+        puts("mocha :     5.5");
+        puts("cuppacino :     4.5");
+        puts("espresso :     3.5");
+        scanf("%d", &coffeechoice);
+        if (coffeechoice == 1) {
+            float price = mocha;
+            float coins = 0.0;
+            float sum = 0.0;
+            float r = 0.0;
+            while (sum < mocha)
+                {
+                    printf("enter coins\n");
+                    scanf("%f", &coins);
+                    sum = sum + coins;
+                    if (sum == mocha) {
+                        printf("enjoy your coffee\n");
+                        break;
+                    }
+                    else if (sum < mocha)
+                    {
+                        r = mocha - sum;
+                        printf("please pay %f \n", r);
+                    }
+
+                }
+                
+                
+        
+        }
+        else if (coffeechoice == 2){
+            float price = cuppacino;
+            float coins = 0.0;
+            float sum = 0.0;
+            float r = 0.0;
+            while (sum < cuppacino)
+                {
+                    printf("enter coins\n");
+                    scanf("%f", &coins);
+                    sum = sum + coins;
+                    if (sum == cuppacino) {
+                        printf("enjoy your coffee\n");
+                        break;
+                    }
+                    else if (sum < cuppacino)
+                    {
+                        r = cuppacino - sum;
+                        printf("please pay %f \n", r);
+                    }
+
+                }
+        }
+        else if (coffeechoice == 3)
+        {
+            float price = espresso;
+            float coins = 0.0;
+            float sum = 0.0;
+            while (sum < espresso)
+                {
+                    printf("enter coins\n");
+                    scanf("%f", &coins);
+                    sum = sum + coins;
+                    if (sum == espresso) {
+                        printf("enjoy your coffee\n");
+                        break;
+                    }
+                    else if (sum < espresso)
+                    {
+                        printf("not enough money\n");
+                    }
+
+                }
+            puts("making esspresso");
+        }
+        break;
+        case 2 :
+        puts("admin page");
+        break;
+        default:
+            puts("Invalid choice");
+        break;
+        }
+
+
+    }
+}
+
+
+
+
+int refill(int a)
+{
+    if (coffee_beans <= CBmin);
+    printf("Refill coffee beans.");
+    else;
+    return 0;
+}
+int refillW(int )
+{ 
+    if (waterM <= watermin);
+    printf("Refill water.");
+    else;
+    return 0;
+}
+int refillm(int )
+{
+    if (milkM <= milkmin);
+    printf("Refill milk.");
+    else;
+    return 0;
+}
