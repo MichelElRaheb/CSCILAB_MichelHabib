@@ -1,0 +1,220 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int coffee_beans = 80;
+int waterM = 400;
+int milkM = 200;
+#define ADpass 1235
+
+// Coffee ingredient requirements
+#define mocha_beans 8
+#define mocha_water 30
+#define mocha_milk 70
+
+#define cuppacino_beans 8
+#define cuppacino_water 30
+#define cuppacino_milk 160
+
+#define espresso_beans 8
+#define espresso_water 39
+#define espresso_milk 0
+
+// Option prices
+float mocha = 5.5;
+float cuppacino = 4.5;
+float espresso = 3.5;
+
+// Minimum ingredients before alert
+#define CBmin 10
+#define watermin 50
+#define milkmin 200
+
+// Menu 
+#define customer 1
+#define admin 2 
+#define exit 3
+
+float checkmoney(float price);
+int refill(int current);
+int refillW(int current);
+int refillm(int current);
+void replenish_ingredients();
+void prepare_coffee(int coffeechoice, float price, int beans, int water, int milk);
+void check_ingredient_alerts();
+void display_ingredient_status();
+
+int main() { 
+    int choice, coffeechoice; 
+
+    // Infinite loop for the menu interface
+    while (1) {
+        puts("\nWelcome to Coffee Machine!");
+        printf("1. Customer\n2. Admin\n3. Exit\n");
+        printf("Please select one: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case customer:
+                puts("Select your coffee:");
+                puts("1. Mocha - $5.5");
+                puts("2. Cappuccino - $4.5");
+                puts("3. Espresso - $3.5");
+                scanf("%d", &coffeechoice);
+
+                switch (coffeechoice) {
+                    case 1:
+                        prepare_coffee(1, mocha, mocha_beans, mocha_water, mocha_milk);
+                        break;
+                    case 2:
+                        prepare_coffee(2, cuppacino, cuppacino_beans, cuppacino_water, cuppacino_milk);
+                        break;
+                    case 3:
+                        prepare_coffee(3, espresso, espresso_beans, espresso_water, espresso_milk);
+                        break;
+                    default:
+                        printf("Invalid choice.\n");
+                        break;
+                }
+                break;
+
+            case admin:
+                printf("Enter Admin Password: ");
+                int password;
+                scanf("%d", &password);
+                if (password == ADpass) {
+                    int adminChoice;
+                    while (1) { // Infinite loop for admin menu
+                        puts("Admin Menu:");
+                        puts("1. Display stock and total revenue");
+                        puts("2. Restock ingredients");
+                        puts("3. Change coffee prices");
+                        puts("0. Exit");
+                        printf("Please select one: ");
+                        scanf("%d", &adminChoice);
+
+                        switch (adminChoice) {
+                            case 1:
+                                display_ingredient_status();
+                                break;
+                            case 2:
+                                replenish_ingredients(); // Randomly replenish ingredients
+                                break;
+                            case 3:
+                                printf("Enter new price for Mocha: ");
+                                scanf("%f", &mocha);
+                                printf("Enter new price for Cappuccino: ");
+                                scanf("%f", &cuppacino);
+                                printf("Enter new price for Espresso: ");
+                                scanf("%f", &espresso);
+                                printf("Prices updated successfully.\n");
+                                break;
+                            case 0:
+                                puts("Exiting Admin Mode...");
+                                goto end_admin; // Exit the admin menu
+                            default:
+                                puts("Invalid choice.");
+                                break;
+                        }
+                    }
+                    end_admin: ;
+                } else {
+                    printf("Invalid password!\n");
+                }
+                break;
+
+            case exit:
+                puts("Exiting...");
+                return 0; // Exits the program from within the loop
+
+            default:
+                puts("Invalid choice.");
+                break;
+        }
+    }
+    return 0;
+}
+
+// Function to display ingredient stock and total revenue
+void display_ingredient_status() {
+    printf("Current inventory:\n");
+    printf("Coffee Beans: %d\n", coffee_beans);
+    printf("Water: %d ml\n", waterM);
+    printf("Milk: %d ml\n", milkM);
+    // You can add total sales tracking if needed, for now we'll assume it's a simple display.
+}
+
+// Function to replenish ingredients with random values
+void replenish_ingredients() {
+    srand(time(NULL)); // Seed random number generator
+    coffee_beans = rand() % 101;  // Randomly set beans between 0 and 100
+    waterM = (rand() % 451) + 50; // Randomly set water between 50 and 500
+    milkM = (rand() % 301) + 100;  // Randomly set milk between 100 and 400
+
+    printf("Ingredients replenished:\n");
+    printf("Coffee Beans: %d\n", coffee_beans);
+    printf("Water: %d ml\n", waterM);
+    printf("Milk: %d ml\n", milkM);
+}
+
+// Function to check money and complete the payment
+float checkmoney(float price) {
+    float sum = 0.0, coin;
+
+    printf("Please insert coins: (Accepted coins: 1 and 0.5 Dhs)\n");
+    while (sum < price) {
+        scanf("%f", &coin);
+
+        // Check if the inserted coin is valid (1 or 0.5)
+        if (coin == 1.0 || coin == 0.5) {
+            sum += coin;
+            if (sum >= price) {
+                return sum;  // Return the total amount paid
+            } else {
+                printf("Remaining amount to be paid: $%.2f\n", price - sum);
+            }
+        } else {
+            printf("Invalid coin. Please insert a valid one (1 or 0.5 Dhs).\n");
+        }
+    }
+    return sum;
+}
+
+// Function to prepare the coffee
+void prepare_coffee(int coffeechoice, float price, int beans, int water, int milk) {
+    if (coffee_beans < beans || waterM < water || milkM < milk) {
+        printf("Sorry, not enough ingredients to prepare your coffee.\n");
+        return;
+    }
+
+    float amount_paid = checkmoney(price);
+    float change = amount_paid - price;
+
+    // Update the ingredient quantities
+    coffee_beans -= beans;
+    waterM -= water;
+    milkM -= milk;
+
+    // Print the coffee receipt
+    const char *coffeename = (coffeechoice == 1) ? "Mocha" : (coffeechoice == 2) ? "Cappuccino" : "Espresso";
+    printf("Enjoy your %s!\n", coffeename);
+    printf("Price: $%.2f\n", price);
+    printf("Paid: $%.2f\n", amount_paid);
+    printf("Change: $%.2f\n", change);
+
+    // Check and print alerts for low ingredients
+    check_ingredient_alerts();
+}
+
+// Function to check and alert for low ingredient levels
+void check_ingredient_alerts() {
+    if (coffee_beans <= CBmin) {
+        printf("ALERT: Low on beans. Please refill soon\n");
+    }
+    if (waterM <= watermin) {
+        printf("ALERT: Low on water level. Please refill soon!\n");
+    }
+    if (milkM <= milkmin) {
+        printf("ALERT: Low on milk level. Please refill soon!\n");
+    }
+}
