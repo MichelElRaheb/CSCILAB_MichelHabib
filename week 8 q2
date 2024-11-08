@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <stdbool.h>
+// definition
+#define Bal 1000;
+// prototype
+float exceed(float balance, float amount);
+
+int main(){
+  
+}
+
+float exceed(float balance, float amount){
+  if(amount > balance)
+    return true;
+  else if(balance >= amount){
+    
+  }
+}
